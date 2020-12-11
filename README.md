@@ -1,2 +1,1 @@
-# php-blog
-Блог на PHP и MySQL
+# Блог на PHP и MySQL
