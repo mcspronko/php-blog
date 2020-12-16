@@ -3,69 +3,28 @@
 {% block body %}
 <div class="container">
   <h1 class="mb-3 mt-3">Welcome to my Blog!</h1>
-  <div class="container row">
-    <div class="p-1">
-      <div class="card" style="width: 18rem;">
-        <img src="https://dummyimage.com/300x200/5b76ba/ffffff" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="/blog-post-1" class="btn btn-primary">Go somewhere</a>
+  {% set rowCount = 1 %}
+  {% for post in posts %}
+    {% if rowCount == 1 %}
+      <div class="container row">
+    {% endif %}
+      <div class="p-1">
+        <div class="card" style="width: 18rem;">
+          <img src="https://dummyimage.com/300x200/5b76ba/ffffff" class="card-img-top" alt="{{ post.title|escape }}">
+          <div class="card-body">
+            <a href="/{{ post.url_key }}"><h5 class="card-title">{{ post.title|escape }}</h5></a>
+            <p class="card-text">{{ post.description|escape }}</p>
+            <a href="/{{ post.url_key }}" class="">Read more</a>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="p-1">
-      <div class="card" style="width: 18rem;">
-        <img src="https://dummyimage.com/300x200/5b76ba/ffffff" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="/blog-post-2" class="btn btn-primary">Go somewhere</a>
-        </div>
+    {% set rowCount = rowCount + 1 %}
+    {% if rowCount == 1 %}
       </div>
-    </div>
-    <div class="p-1">
-      <div class="card" style="width: 18rem;">
-        <img src="https://dummyimage.com/300x200/5b76ba/ffffff" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="/blog-post-3" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="container row">
-    <div class="p-1">
-      <div class="card" style="width: 18rem;">
-        <img src="https://dummyimage.com/300x200/5b76ba/ffffff" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
-    </div>
-    <div class="p-1">
-      <div class="card" style="width: 18rem;">
-        <img src="https://dummyimage.com/300x200/5b76ba/ffffff" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
-    </div>
-    <div class="p-1">
-      <div class="card" style="width: 18rem;">
-        <img src="https://dummyimage.com/300x200/5b76ba/ffffff" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
-    </div>
-  </div>
+    {% endif %}
+    {% if rowCount > 3 %}
+      {% set rowCount = 1 %}
+    {% endif %}
+  {% endfor %}
 </div>
 {% endblock %}
