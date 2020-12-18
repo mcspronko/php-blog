@@ -39,6 +39,11 @@ class PostMapper
         return array_shift($result);
     }
 
+    /**
+     * @param string $direction
+     * @return array|null
+     * @throws Exception
+     */
     public function getList(string $direction): ?array
     {
         if (!in_array($direction, ['DESC', 'ASC'])) {
