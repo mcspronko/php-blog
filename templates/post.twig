@@ -1,7 +1,7 @@
 {% extends 'base.twig' %}
 
 {% block body %}
-  <div class="container">
+  <div>
     {% if post.image_path is not null %}
       <img src="{{ post.image_path }}" class="img-fluid" alt="{{ post.title|escape }}">
     {% endif %}

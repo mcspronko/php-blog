@@ -1,0 +1,15 @@
+{% for post in posts %}
+  <div class="row mb-2 bg-light" style="border: 1px solid #ddd;">
+    <div class="p-3">
+      {% if post.image_path is not null %}
+        <img src="{{ post.image_path }}" class="card-img-top" alt="{{ post.title|escape }}">
+      {% endif %}
+      <div class="mt-3">
+        <a href="/{{ post.url_key }}"><h5 class="card-title">{{ post.title|escape }}</h5></a>
+        <span class="text-muted">Max Pronko | {{ post.published_date|date("F d, Y") }}</span>
+        <p class="mt-2">{{ post.description|escape }}</p>
+        <a href="/{{ post.url_key }}" class="">Read more</a>
+      </div>
+    </div>
+  </div>
+{% endfor %}
