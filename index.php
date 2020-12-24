@@ -53,15 +53,20 @@ $app->get('/about', function (Request $request, Response $response) use ($view) 
 });
 
 $app->get('/blog[/{page}]', function (Request $request, Response $response, $args) use ($view, $connection) {
-    $latestPosts = new PostMapper($connection);
+    $postMapper = new PostMapper($connection);
 
     $page = isset($args['page']) ? (int) $args['page'] : 1;
     $limit = 2;
 
-    $posts = $latestPosts->getList($page, $limit, 'DESC');
+    $posts = $postMapper->getList($page, $limit, 'DESC');
 
+    $totalCount = $postMapper->getTotalCount();
     $body = $view->render('blog.twig', [
-        'posts' => $posts
+        'posts' => $posts,
+        'pagination' => [
+            'current' => $page,
+            'paging' => ceil($totalCount / $limit),
+        ],
     ]);
     $response->getBody()->write($body);
     return $response;

@@ -1,9 +1,19 @@
 <nav aria-label="Blog pagination">
   <ul class="pagination">
-    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-    <li class="page-item"><a class="page-link" href="#">1</a></li>
-    <li class="page-item"><a class="page-link" href="#">2</a></li>
-    <li class="page-item"><a class="page-link" href="#">3</a></li>
-    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+    {% if pagination.current > 1 %}
+      <li class="page-item">
+        <a class="page-link" href="{{ url('blog/' ~ (pagination.current - 1)) }}">Previous</a>
+      </li>
+    {% endif %}
+    {% for page in 1..pagination.paging %}
+      <li class="page-item {% if pagination.current == page %} active {% endif %}">
+        <a class="page-link" href="{{ url('blog/' ~ page) }}">{{ page }}</a>
+      </li>
+    {% endfor %}
+    {% if pagination.current < pagination.paging %}
+      <li class="page-item">
+        <a class="page-link" href="{{ url('blog/' ~ (pagination.current + 1)) }}">Next</a>
+      </li>
+    {% endif %}
   </ul>
 </nav>
