@@ -1,7 +1,6 @@
 <?php
 
 use Blog\Database;
-use Blog\LatestPosts;
 use Blog\Slim\TwigMiddleware;
 use DevCoder\DotEnv;
 use DI\ContainerBuilder;
