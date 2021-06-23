@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Blog;
 
-use http\Exception\InvalidArgumentException;
+use InvalidArgumentException;
 use PDO;
 use PDOException;
 
