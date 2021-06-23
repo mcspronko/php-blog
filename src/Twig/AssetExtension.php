@@ -27,7 +27,7 @@ class AssetExtension extends AbstractExtension
     /**
      * @return array|TwigFunction[]
      */
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction('asset_url', [$this, 'getAssetUrl']),
