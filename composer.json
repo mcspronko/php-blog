@@ -21,5 +21,13 @@
         "psr-4": {
             "Blog\\": "src/"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Blog\\Test\\": "Test/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
     }
 }
