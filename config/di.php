@@ -15,7 +15,8 @@ return [
         ->constructorParameter('paths', 'templates'),
 
     Environment::class => autowire()
-        ->constructorParameter('loader', get(FilesystemLoader::class)),
+        ->constructorParameter('loader', get(FilesystemLoader::class))
+        ->method('addExtension', get(AssetExtension::class)),
 
     Database::class => autowire()
         ->constructorParameter('connection', get(PDO::class)),

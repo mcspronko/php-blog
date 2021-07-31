@@ -4,7 +4,6 @@ use Blog\Route\AboutPage;
 use Blog\Route\BlogPage;
 use Blog\Route\PostPage;
 use Blog\Route\HomePage;
-use Blog\Slim\TwigMiddleware;
 use DevCoder\DotEnv;
 use DI\ContainerBuilder;
 use Slim\Factory\AppFactory;
@@ -21,8 +20,6 @@ AppFactory::setContainer($container);
 
 // Create app
 $app = AppFactory::create();
-
-$app->add($container->get(TwigMiddleware::class));
 
 $app->get('/', HomePage::class . ':execute');
 $app->get('/about', AboutPage::class);
