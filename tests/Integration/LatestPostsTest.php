@@ -14,16 +14,11 @@ class LatestPostsTest extends TestCase
 
     protected function setUp(): void
     {
-        $container = ContainerProvider::getContainer();
-
-        $this->latestPosts = new LatestPosts($container->get(Database::class));
-    }
-
-    public static function setUpBeforeClass(): void
-    {
         require 'delete_latest_posts.php';
         require 'create_latest_posts.php';
-        fwrite(STDERR, print_r('Created Test Post 1', TRUE));
+
+        $container = ContainerProvider::getContainer();
+        $this->latestPosts = new LatestPosts($container->get(Database::class));
     }
 
     public function testGet(): void
@@ -41,9 +36,8 @@ class LatestPostsTest extends TestCase
         $this->assertEquals('test-post-1', $testPost['url_key']);
     }
 
-    public static function tearDownAfterClass(): void
+    public function tearDown(): void
     {
         require 'delete_latest_posts.php';
-        fwrite(STDERR, print_r('Deleted Test Post 1', TRUE));
     }
 }
