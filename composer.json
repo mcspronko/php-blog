@@ -10,14 +10,22 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "slim/psr7": "^1.3",
-        "slim/slim": "^4.7",
-        "twig/twig": "^3.1",
-        "ext-PDO": "^7.4"
+        "slim/psr7": "^1.4",
+        "slim/slim": "^4.8",
+        "twig/twig": "^3.3",
+        "ext-PDO": "^7.4",
+        "php-di/php-di": "6",
+        "devcoder-xyz/php-dotenv": "^1.0",
+        "phpunit/phpunit": "8.2.3"
     },
     "autoload": {
         "psr-4": {
             "Blog\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Blog\\Test\\": "tests/"
         }
     }
 }

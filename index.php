@@ -1,90 +1,32 @@
 <?php
 
-use Blog\LatestPosts;
+use Blog\Route\AboutPage;
+use Blog\Route\BlogPage;
+use Blog\Route\HomePage;
+use Blog\Route\PostPage;
 use Blog\Slim\TwigMiddleware;
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
+use DevCoder\DotEnv;
+use DI\ContainerBuilder;
 use Slim\Factory\AppFactory;
-use Twig\Environment;
-use Twig\Loader\FilesystemLoader;
-use Blog\PostMapper;
 
 require __DIR__ . '/vendor/autoload.php';
 
-$loader = new FilesystemLoader('templates');
-$view = new Environment($loader);
+$builder = new ContainerBuilder();
+$builder->addDefinitions('config/di.php');
+(new DotEnv(__DIR__ . '/.env'))->load();
 
-$config = include 'config/database.php';
-$dsn = $config['dsn'];
-$username = $config['username'];
-$password = $config['password'];
+$container = $builder->build();
 
-try {
-    $connection = new PDO($dsn, $username, $password);
-    $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-} catch (PDOException $exception) {
-    echo 'Database error: ' . $exception->getMessage();
-    die();
-}
+AppFactory::setContainer($container);
 
 // Create app
 $app = AppFactory::create();
+$app->addErrorMiddleware(true, false, false);
+$app->add($container->get(TwigMiddleware::class));
 
-$app->add(new TwigMiddleware($view));
-
-$app->get('/', function (Request $request, Response $response) use ($view, $connection) {
-    $latestPosts = new LatestPosts($connection);
-    $posts = $latestPosts->get(3);
-
-    $body = $view->render('index.twig', [
-        'posts' => $posts
-    ]);
-    $response->getBody()->write($body);
-    return $response;
-});
-
-$app->get('/about', function (Request $request, Response $response) use ($view) {
-    $body = $view->render('about.twig', [
-        'name' => 'Max'
-    ]);
-    $response->getBody()->write($body);
-    return $response;
-});
-
-$app->get('/blog[/{page}]', function (Request $request, Response $response, $args) use ($view, $connection) {
-    $postMapper = new PostMapper($connection);
-
-    $page = isset($args['page']) ? (int) $args['page'] : 1;
-    $limit = 2;
-
-    $posts = $postMapper->getList($page, $limit, 'DESC');
-
-    $totalCount = $postMapper->getTotalCount();
-    $body = $view->render('blog.twig', [
-        'posts' => $posts,
-        'pagination' => [
-            'current' => $page,
-            'paging' => ceil($totalCount / $limit),
-        ],
-    ]);
-    $response->getBody()->write($body);
-    return $response;
-});
-
-$app->get('/{url_key}', function (Request $request, Response $response, $args) use ($view, $connection) {
-    $postMapper = new PostMapper($connection);
-    $post = $postMapper->getByUrlKey((string) $args['url_key']);
-
-    if (empty($post)) {
-        $body = $view->render('not-found.twig');
-    } else {
-        $body = $view->render('post.twig', [
-            'post' => $post
-        ]);
-    }
-    $response->getBody()->write($body);
-    return $response;
-});
+$app->get('/', HomePage::class . ':execute');
+$app->get('/about', AboutPage::class);
+$app->get('/blog[/{page}]', BlogPage::class);
+$app->get('/{url_key}', PostPage::class);
 
 $app->run();

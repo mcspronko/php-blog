@@ -32,6 +32,7 @@ class LatestPosts
             'SELECT * FROM post ORDER BY published_date DESC LIMIT ' . $limit
         );
 
+        $statement->bindParam(':limit', $limit, PDO::PARAM_INT);
         $statement->execute();
 
         return $statement->fetchAll();
