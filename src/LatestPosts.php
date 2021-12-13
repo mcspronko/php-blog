@@ -9,17 +9,17 @@ use PDO;
 class LatestPosts
 {
     /**
-     * @var PDO
+     * @var Database
      */
-    private PDO $connection;
+    private Database $database;
 
     /**
      * LatestPosts constructor.
-     * @param PDO $connection
+     * @param Database $database
      */
-    public function __construct(PDO $connection)
+    public function __construct(Database $database)
     {
-        $this->connection = $connection;
+        $this->database = $database;
     }
 
     /**
@@ -28,8 +28,8 @@ class LatestPosts
      */
     public function get(int $limit): ?array
     {
-        $statement = $this->connection->prepare(
-            'SELECT * FROM post ORDER BY published_date DESC LIMIT ' . $limit
+        $statement = $this->database->getConnection()->prepare(
+            'SELECT * FROM post ORDER BY published_date DESC LIMIT :limit'
         );
 
         $statement->bindParam(':limit', $limit, PDO::PARAM_INT);
