@@ -3,17 +3,13 @@
 declare(strict_types=1);
 
 use Blog\Database;
-use DevCoder\DotEnv;
 
-(new DotEnv(__DIR__ . '/../.env'))->load();
+use Blog\Test\Integration\ContainerProvider;
 
-$database = new Database(
-    getenv('DATABASE_DSN'),
-    getenv('DATABASE_USERNAME'),
-    getenv('DATABASE_PASSWORD')
-);
+$container = ContainerProvider::getContainer();
 
-$connection = $database->getConnection();
+/** @var PDO $connection */
+$connection = $container->get(Database::class)->getConnection();
 
 $statement = $connection->prepare('DELETE FROM post WHERE title = :title');
 

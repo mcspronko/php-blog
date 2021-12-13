@@ -14,16 +14,14 @@ class LatestPostsTest extends TestCase
 
     protected function setUp(): void
     {
-        $database = new Database(
-            getenv('DATABASE_DSN'),
-            getenv('DATABASE_USERNAME'),
-            getenv('DATABASE_PASSWORD')
-        );
-        $this->latestPosts = new LatestPosts($database);
+        $container = ContainerProvider::getContainer();
+
+        $this->latestPosts = new LatestPosts($container->get(Database::class));
     }
 
     public static function setUpBeforeClass(): void
     {
+        require_once 'delete_latest_posts.php';
         require_once 'create_latest_posts.php';
         fwrite(STDERR, print_r('Created Test Post 1', TRUE));
     }

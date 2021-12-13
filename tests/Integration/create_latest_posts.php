@@ -3,17 +3,12 @@
 declare(strict_types=1);
 
 use Blog\Database;
-use DevCoder\DotEnv;
+use Blog\Test\Integration\ContainerProvider;
 
-(new DotEnv(__DIR__ . '/../.env'))->load();
+$container = ContainerProvider::getContainer();
 
-$database = new Database(
-    getenv('DATABASE_DSN'),
-    getenv('DATABASE_USERNAME'),
-    getenv('DATABASE_PASSWORD')
-);
-
-$connection = $database->getConnection();
+/** @var PDO $connection */
+$connection = $container->get(Database::class)->getConnection();
 
 $statement = $connection->prepare('INSERT INTO post (title, description, url_key, published_date) VALUES (:title, :description, :url_key, :published_date)');
 
