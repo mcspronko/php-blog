@@ -59,9 +59,8 @@ class AssetExtension extends AbstractExtension
      */
     public function getBaseUrl(): string
     {
-        $params = $this->request->getServerParams();
-        $scheme = $params['REQUEST_SCHEME'] ?? 'http';
-        return  $scheme . '://' . $params['HTTP_HOST'] . '/';
+        $scheme = $this->serverParams['REQUEST_SCHEME'] ?? 'http';
+        return  $scheme . '://' . $this->serverParams['HTTP_HOST'] . '/';
     }
 
     /**
