@@ -11,28 +11,37 @@ use Twig\TwigFunction;
 class AssetExtension extends AbstractExtension
 {
     /**
-     * @var ServerRequestInterface
+     * @var array
      */
-    private ServerRequestInterface $request;
+    private array $serverParams;
+
+    /**
+     * @var TwigFunctionFactory
+     */
+    private TwigFunctionFactory $twigFunctionFactory;
 
     /**
      * AssetExtension constructor.
-     * @param ServerRequestInterface $request
+     * @param array $serverParams
+     * @param TwigFunctionFactory $twigFunctionFactory
      */
-    public function __construct(ServerRequestInterface $request)
-    {
-        $this->request = $request;
+    public function __construct(
+        array $serverParams,
+        TwigFunctionFactory $twigFunctionFactory
+    ) {
+        $this->serverParams = $serverParams;
+        $this->twigFunctionFactory = $twigFunctionFactory;
     }
 
     /**
      * @return array|TwigFunction[]
      */
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
-            new TwigFunction('asset_url', [$this, 'getAssetUrl']),
-            new TwigFunction('url', [$this, 'getUrl']),
-            new TwigFunction('base_url', [$this, 'getBaseUrl']),
+            $this->twigFunctionFactory->create('asset_url', [$this, 'getAssetUrl']),
+            $this->twigFunctionFactory->create('url', [$this, 'getUrl']),
+            $this->twigFunctionFactory->create('base_url', [$this, 'getBaseUrl']),
         ];
     }
 

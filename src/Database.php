@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Blog;
 
-use InvalidArgumentException;
 use PDO;
-use PDOException;
 
 class Database
 {
@@ -17,20 +15,10 @@ class Database
 
     /**
      * Database constructor.
-     * @param $dsn
-     * @param $username
-     * @param $password
+     * @param PDO $connection
      */
-    public function __construct($dsn, $username, $password)
+    public function __construct(PDO $connection)
     {
-        try {
-            $connection = new PDO($dsn, $username, $password);
-            $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-        } catch (PDOException $exception) {
-            throw new InvalidArgumentException($exception->getMessage());
-        }
-
         $this->connection = $connection;
     }
 

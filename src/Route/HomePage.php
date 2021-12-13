@@ -12,24 +12,24 @@ use Twig\Environment;
 class HomePage
 {
     /**
-     * @var Environment
-     */
-    private Environment $view;
-
-    /**
      * @var LatestPosts
      */
     private LatestPosts $latestPosts;
 
     /**
-     * HomePage constructor.
-     * @param Environment $view
-     * @param LatestPosts $latestPosts
+     * @var Environment
      */
-    public function __construct(Environment $view, LatestPosts $latestPosts)
+    private Environment $view;
+
+    /**
+     * HomePage constructor.
+     * @param LatestPosts $latestPosts
+     * @param Environment $view
+     */
+    public function __construct(LatestPosts $latestPosts, Environment $view)
     {
-        $this->view = $view;
         $this->latestPosts = $latestPosts;
+        $this->view = $view;
     }
 
     /**
