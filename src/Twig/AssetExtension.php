@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Blog\Twig;
 
-use Psr\Http\Message\ServerRequestInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
