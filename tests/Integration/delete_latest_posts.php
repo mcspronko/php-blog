@@ -11,8 +11,8 @@ $container = ContainerProvider::getContainer();
 /** @var PDO $connection */
 $connection = $container->get(Database::class)->getConnection();
 
-$statement = $connection->prepare('DELETE FROM post WHERE title = :title');
+$statement = $connection->prepare('DELETE FROM post WHERE title LIKE (:title)');
 
-$statement->execute([
-    ':title' => 'Test Post 1',
-]);
+$title = 'Test Post 1';
+$statement->bindParam(':title', $title);
+$statement->execute();

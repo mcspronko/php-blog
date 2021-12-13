@@ -21,8 +21,8 @@ class LatestPostsTest extends TestCase
 
     public static function setUpBeforeClass(): void
     {
-        require_once 'delete_latest_posts.php';
-        require_once 'create_latest_posts.php';
+        require 'delete_latest_posts.php';
+        require 'create_latest_posts.php';
         fwrite(STDERR, print_r('Created Test Post 1', TRUE));
     }
 
@@ -43,7 +43,7 @@ class LatestPostsTest extends TestCase
 
     public static function tearDownAfterClass(): void
     {
-        require_once 'delete_latest_posts.php';
+        require 'delete_latest_posts.php';
         fwrite(STDERR, print_r('Deleted Test Post 1', TRUE));
     }
 }
